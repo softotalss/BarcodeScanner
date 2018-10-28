@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath libraries.novoda_bintray
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion versions.compile_sdk
+    buildToolsVersion versions.build_tools
+
+    defaultConfig {
+        minSdkVersion versions.min_sdk
+        targetSdkVersion versions.target_sdk
+        versionName versions.barcodescanner
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compileOnly libraries.zxing_core
+}
+
+apply plugin: 'maven-publish'
+apply from: '../deploy.gradle'
+
+publish {
+    userOrg = USER as String
+    groupId = GROUP as String
+    artifactId = ARTIFACT_ID as String
+    publishVersion = versions.barcodescanner
+    desc = DESC as String
+    website = WEBSITE as String
+    issueTracker = ISSUE_TRACKER as String
+    repository = REPOSITORY as String
+}

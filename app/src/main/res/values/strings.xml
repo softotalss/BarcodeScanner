@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Barcode Scanner</string>
+
+    <string name="text_alert">Alert</string>
+    <string name="text_flash_on">Flash [ON]</string>
+    <string name="text_flash_off">Flash [OFF]</string>
+
+    <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
+    <string name="msg_camera_permission">The app need access to camera for read barcodes</string>
+    <string name="msg_camera_permission_denied">Camera permission denied</string>
+
+</resources>
