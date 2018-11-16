@@ -78,7 +78,7 @@ public class ScannerActivity extends AppCompatActivity implements BarcodeScanner
     } 
 
     @Override
-    public void onErrorExit() {
+    public void onErrorExit(Exception e) {
         // An error occurred with the camera, notify to user
     }
 ```
