@@ -221,14 +221,8 @@ public class BarcodeScannerView extends FrameLayout implements SurfaceHolder.Cal
             if (mHandler == null) {
                 mHandler = new CaptureHandler(this, getFormats(), mHints, mViewfinderView);
             }
-        } catch (IOException ioe) {
-            Log.w(TAG, ioe);
-            mCallback.onErrorExit();
-        } catch (RuntimeException e) {
-            // Barcode Scanner has seen crashes in the wild of this variety:
-            // java.?lang.?RuntimeException: Fail to connect to camera service
-            Log.w(TAG, "Unexpected error initializing camera", e);
-            mCallback.onErrorExit();
+        } catch (IOException|RuntimeException e) {
+            mCallback.onErrorExit(e);
         }
     }
 
@@ -236,6 +230,6 @@ public class BarcodeScannerView extends FrameLayout implements SurfaceHolder.Cal
 
     public interface ActivityCallback {
         void onResult(Result result);
-        void onErrorExit();
+        void onErrorExit(Exception e);
     }
 }

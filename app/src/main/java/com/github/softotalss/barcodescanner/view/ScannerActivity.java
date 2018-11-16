@@ -154,7 +154,7 @@ public class ScannerActivity extends AppCompatActivity implements BarcodeScanner
     }
 
     @Override
-    public void onErrorExit() {
+    public void onErrorExit(Exception e) {
         Log.d(TAG, "onErrorExit");
         DialogFactory.showNoCancelable(DialogFactory.createSimpleOkDialog(this,
                 R.string.app_name, R.string.msg_camera_framework_bug,
