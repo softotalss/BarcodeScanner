@@ -21,7 +21,7 @@ repositories {
 ```groovy
 dependencies {
     implementation 'com.google.zxing:core:x.x.x'
-    implementation 'com.github.softotalss:barcodescanner:1.0.0'
+    implementation 'com.github.softotalss:barcodescanner:1.0.1'
 }
 ```
 
