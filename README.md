@@ -21,7 +21,7 @@ repositories {
 ```groovy
 dependencies {
     implementation 'com.google.zxing:core:x.x.x'
-    implementation 'com.github.softotalss:barcodescanner:1.0.1'
+    implementation 'com.github.softotalss:barcodescanner:1.0.2'
 }
 ```
 
@@ -100,11 +100,22 @@ void setFormats(formats);
 [BarcodeFormat][2]
 > Use setFormats only right after initCamera
 
+##### Simulate landscape
+The library read barcodes faster in landscape mode, but in some cases you will need 
+that your app always run in portrait mode. If it's this case, you can use the next 
+config and simulate landscape mode even if your read activity is in portrait mode
+
+```java
+void setLandscapeSimulated(boolean landscapeSimulated);
+```
+
 Deployment
 ------
 1. update version information
-2. gradlew :barcodescanner:assembleRelease :barcodescanner:publishMavenPublicationToMavenRepository
-3. git add, commit, push (on master branch)
+2. gradlew clean
+3. gradlew :barcodescanner:assembleRelease 
+4. gradlew :barcodescanner:publishMavenPublicationToMavenRepository
+5. git add, commit, push (on master branch)
 
 Author
 ------
