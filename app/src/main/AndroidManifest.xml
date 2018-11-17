@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/NoActionBar">
         <activity android:name=".view.ScannerActivity"
             android:clearTaskOnLaunch="true"
             android:stateNotNeeded="true">
