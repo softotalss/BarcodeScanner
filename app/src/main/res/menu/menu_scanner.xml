@@ -9,4 +9,11 @@
         android:title="@string/text_flash_off"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/btn_rotate"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_screen_rotation"
+        android:title="@string/text_rotate"
+        app:showAsAction="ifRoom"/>
+
 </menu>

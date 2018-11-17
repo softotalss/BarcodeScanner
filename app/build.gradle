@@ -27,5 +27,6 @@ android {
 dependencies {
     implementation libraries.appcompat_v7
     implementation libraries.zxing_core
+    implementation libraries.rotate_layout
     implementation project(':barcodescanner')
 }

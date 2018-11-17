@@ -18,16 +18,20 @@ package com.github.softotalss.barcodescanner.view;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.github.softotalss.barcodescanner.R;
 import com.github.softotalss.barcodescanner.utils.ActivityUtil;
@@ -48,7 +52,18 @@ public class ScannerActivity extends AppCompatActivity implements BarcodeScanner
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_scanner);
+
+        if (isLandscapeSimulated()) {
+            setContentView(R.layout.activity_scanner_rotate);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            Toast.makeText(this, R.string.text_landscape_simulated, Toast.LENGTH_LONG).show();
+        } else {
+            setContentView(R.layout.activity_scanner);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            Toast.makeText(this, R.string.text_landscape, Toast.LENGTH_LONG).show();
+        }
+
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         initView();
     }
@@ -87,6 +102,12 @@ public class ScannerActivity extends AppCompatActivity implements BarcodeScanner
                 }
                 mScannerView.toggleFlash();
                 return true;
+            case R.id.btn_rotate:
+                Intent intent = new Intent(this, ScannerActivity.class);
+                intent.putExtra("landscapeSimulated", !isLandscapeSimulated());
+                startActivity(intent);
+                finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -124,6 +145,7 @@ public class ScannerActivity extends AppCompatActivity implements BarcodeScanner
 
     private void initCamera() {
         mScannerView = new BarcodeScannerView(this);
+        mScannerView.setLandscapeSimulated(isLandscapeSimulated());
         mContentFrame.addView(mScannerView);
     }
 
@@ -138,6 +160,10 @@ public class ScannerActivity extends AppCompatActivity implements BarcodeScanner
         if (mScannerView != null) {
             mScannerView.stopCamera();
         }
+    }
+
+    private boolean isLandscapeSimulated() {
+        return getIntent().getBooleanExtra("landscapeSimulated", false);
     }
 
     @Override

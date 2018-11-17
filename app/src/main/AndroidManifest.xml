@@ -9,7 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.ScannerActivity"
-            android:screenOrientation="landscape"
             android:clearTaskOnLaunch="true"
             android:stateNotNeeded="true">
             <intent-filter>

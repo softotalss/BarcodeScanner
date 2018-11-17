@@ -2,21 +2,22 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <!--For compatibility-->
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar.Solid">
-        <item name="android:background">@color/transparent_black</item>
-        <!--For compatibility-->
-        <item name="background">@color/transparent_black</item>
+    <style name="NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Toolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>
 
 </resources>
