@@ -19,6 +19,7 @@
 package com.github.softotalss.barcodescanner.view;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -53,7 +54,7 @@ public class BarcodeScannerView extends FrameLayout implements SurfaceHolder.Cal
     private CameraManager mCameraManager;
     private SurfaceView mPreview;
     private CaptureHandler mHandler;
-    private boolean mHasSurface;
+    private boolean mHasSurface, mLandscapeSimulated;
 
     static {
         ALL_FORMATS.add(BarcodeFormat.AZTEC);
@@ -85,6 +86,10 @@ public class BarcodeScannerView extends FrameLayout implements SurfaceHolder.Cal
         initHints();
     }
 
+    public void setLandscapeSimulated(boolean landscapeSimulated) {
+        mLandscapeSimulated = landscapeSimulated;
+    }
+
     public void setResultHandler(ActivityCallback resultHandler) {
         mCallback = resultHandler;
     }
@@ -97,7 +102,7 @@ public class BarcodeScannerView extends FrameLayout implements SurfaceHolder.Cal
     }
 
     public void startCamera() {
-        mCameraManager = new CameraManager(getContext());
+        mCameraManager = new CameraManager(getContext(), mLandscapeSimulated);
         mViewfinderView.setCameraManager(mCameraManager);
 
         if (mHasSurface) {

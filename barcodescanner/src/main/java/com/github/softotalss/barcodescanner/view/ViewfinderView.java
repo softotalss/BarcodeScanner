@@ -105,12 +105,7 @@ public final class ViewfinderView extends View {
             canvas.drawBitmap(resultBitmap, null, frame, paint);
         } else {
 
-            // Draw a red "laser scanner" line through the middle to show decoding is active
-            paint.setColor(laserColor);
-            paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
-            scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
-            int middle = frame.height() / 2 + frame.top;
-            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
+            drawLaserScanner(canvas, frame);
 
             float scaleX = frame.width() / (float) previewFrame.width();
             float scaleY = frame.height() / (float) previewFrame.height();
@@ -185,6 +180,21 @@ public final class ViewfinderView extends View {
                 // trim it
                 points.subList(0, size - MAX_RESULT_POINTS / 2).clear();
             }
+        }
+    }
+
+    private void drawLaserScanner(Canvas canvas, Rect frame) {
+        // Draw a red "laser scanner" line through the middle to show decoding is active
+        paint.setColor(laserColor);
+        paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
+        scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
+        if (cameraManager.isLandscapeSimulated()) {
+            // Draw the laser in landscape mode even if screen is in portrait
+            int middle = frame.width() / 2 + frame.left;
+            canvas.drawRect(middle - 1, frame.top, middle + 2, frame.bottom, paint);
+        } else {
+            int middle = frame.height() / 2 + frame.top;
+            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
         }
     }
 

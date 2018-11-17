@@ -60,16 +60,18 @@ public final class CameraManager {
   private int requestedCameraId = OpenCameraInterface.NO_REQUESTED_CAMERA;
   private int requestedFramingRectWidth;
   private int requestedFramingRectHeight;
+  private boolean landscapeSimulated;
   /**
    * Preview frames are delivered here, which we pass on to the registered handler. Make sure to
    * clear the handler so it will only receive one message.
    */
   private final PreviewCallback previewCallback;
 
-  public CameraManager(Context context) {
+  public CameraManager(Context context, boolean landscapeSimulated) {
     this.context = context;
     this.configManager = new CameraConfigurationManager(context);
     previewCallback = new PreviewCallback(configManager);
+    this.landscapeSimulated = landscapeSimulated;
   }
   
   /**
@@ -91,6 +93,7 @@ public final class CameraManager {
     if (!initialized) {
       initialized = true;
       configManager.initFromCameraParameters(theCamera);
+      if (isLandscapeSimulated()) enableLandscapeSimulated();
       if (requestedFramingRectWidth > 0 && requestedFramingRectHeight > 0) {
         setManualFramingRect(requestedFramingRectWidth, requestedFramingRectHeight);
         requestedFramingRectWidth = 0;
@@ -289,7 +292,7 @@ public final class CameraManager {
   public synchronized void setManualCameraId(int cameraId) {
     requestedCameraId = cameraId;
   }
-  
+
   /**
    * Allows third party apps to specify the scanning rectangle dimensions, rather than determine
    * them automatically based on screen resolution.
@@ -315,6 +318,33 @@ public final class CameraManager {
       requestedFramingRectWidth = width;
       requestedFramingRectHeight = height;
     }
+  }
+
+  public synchronized boolean isLandscapeSimulated() {
+      Point screenResolution = configManager.getScreenResolution();
+
+      if (screenResolution == null) {
+          // Called early, before init even finished
+          return false;
+      }
+
+      boolean portraitMode = screenResolution.x < screenResolution.y;
+
+      return landscapeSimulated && portraitMode;
+  }
+
+  private void enableLandscapeSimulated() {
+    Point screenResolution = configManager.getScreenResolution();
+
+    if (screenResolution == null) {
+      // Called early, before init even finished
+      return;
+    }
+
+    int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+    int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
+
+    setManualFramingRect(width, height);
   }
 
   /**
